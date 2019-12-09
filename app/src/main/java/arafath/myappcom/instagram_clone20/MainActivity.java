@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener{
 
-    Button btn,btn2;
+    Button btn,btn2,button3;
     EditText editText, editText2, editText3, editText4;
     TextView textView;
     @Override
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
 
         btn = findViewById(R.id.button);
         btn2 = findViewById(R.id.btnGetData);
+        button3 = findViewById(R.id.anotherActivity);
         btn.setOnClickListener(MainActivity.this);
 
         textView = findViewById(R.id.textView);
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                         }
                     }
                 });
+            }
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
