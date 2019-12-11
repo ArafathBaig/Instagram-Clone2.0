@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edtTextEmail"
+        android:id="@+id/edtTextSignUpEmail"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <EditText
-        android:id="@+id/edtTextUsername"
+        android:id="@+id/edtTextSignUpUsername"
         android:layout_width="0dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
@@ -41,10 +41,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/edtTextSignUpEmail" />
 
     <EditText
-        android:id="@+id/edtTextPassword"
+        android:id="@+id/edtTextSignUpPassword"
         android:layout_width="0dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
@@ -53,7 +53,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTextUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/edtTextSignUpUsername" />
 
     <TextView
         android:id="@+id/textLogin"
@@ -80,6 +80,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edtTextSignUpPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
