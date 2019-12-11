@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/edtTextTItle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
@@ -15,38 +15,26 @@
         android:text="Instagram"
         android:textSize="45sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edtTextEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="E-mail ID"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
-
-    <EditText
         android:id="@+id/edtTextUsername"
         android:layout_width="0dp"
-        android:layout_height="51dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/edtTextTItle" />
 
     <EditText
         android:id="@+id/edtTextPassword"
         android:layout_width="0dp"
-        android:layout_height="51dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Password"
@@ -56,30 +44,29 @@
         app:layout_constraintTop_toBottomOf="@+id/edtTextUsername" />
 
     <TextView
-        android:id="@+id/textLogin"
+        android:id="@+id/textSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-black"
-        android:text="Already have an account? Login"
+        android:text="Don't have an account? Sign Up"
         android:textColor="#243874"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogIn" />
 
     <Button
-        android:id="@+id/buttonSignUp"
+        android:id="@+id/buttonLogIn"
         android:layout_width="211dp"
         android:layout_height="61dp"
         android:layout_marginTop="28dp"
         android:background="#82A1E0"
-        android:text="Sign Up"
+        android:text="Log In"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtTextPassword" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
