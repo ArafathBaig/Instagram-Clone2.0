@@ -20,14 +20,35 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    //UI components
+    private EditText edtEmail, edtUsername, edtPassword;
+    private Button btnSignup;
+    private TextView textLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        setTitle("Instagram-Clone");
+
+        edtEmail = findViewById(R.id.edtTextSignUpEmail);
+        edtUsername = findViewById(R.id.edtTextSignUpUsername);
+        edtPassword = findViewById(R.id.edtTextSignUpPassword);
+
+        btnSignup = findViewById(R.id.buttonSignUp);
+
+        textLogin = findViewById(R.id.textLogin);
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }
