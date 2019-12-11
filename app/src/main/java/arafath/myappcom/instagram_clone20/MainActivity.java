@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonSignUp:
 
                 if(edtEmail.getText().toString().equals("") || edtUsername.getText().toString().equals("") || edtPassword.getText().toString().equals("")){
-                    FancyToast.makeText(MainActivity.this, "Fill the mandontary fields", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
+                    FancyToast.makeText(MainActivity.this, "Email, Username, Password required.", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
 
                 }else {
                     final ParseUser appUser = new ParseUser();
@@ -111,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
 
+        }
+    }
+    public void rootLayoutTapped(View view) {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,25 +44,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch(view.getId()){
             case R.id.buttonLogIn:
-                ParseUser.logInInBackground(edtName.getText().toString(), edtPass.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
+                if( edtName.getText().toString().equals("") || edtPass.getText().toString().equals("")){
+                    FancyToast.makeText(LoginActivity.this, "Email, Username, Password required.", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
 
-                        if(user !=null && e==null){
-                            FancyToast.makeText(LoginActivity.this, user.getUsername() + " is Logged In.", FancyToast.SUCCESS, Toast.LENGTH_SHORT,true).show();
+                }else {
+                    ParseUser.logInInBackground(edtName.getText().toString(), edtPass.getText().toString(), new LogInCallback() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
 
-                        }else{
-                            FancyToast.makeText(LoginActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT,true).show();
+                            if (user != null && e == null) {
+                                FancyToast.makeText(LoginActivity.this, user.getUsername() + " is Logged In.", FancyToast.SUCCESS, Toast.LENGTH_SHORT, true).show();
 
+                            } else {
+                                FancyToast.makeText(LoginActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT, true).show();
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 break;
 
             case R.id.textSignUp:
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+    public void rootLayoutTappedd(View view) {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }
