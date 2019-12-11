@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignup.setOnClickListener(this);
         textLogin.setOnClickListener(this);
 
+        if(ParseUser.getCurrentUser() != null) {
+            ParseUser.getCurrentUser().logOut();
+        }
+
 
 
     }
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.textLogin:
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
                 break;
 
         }
