@@ -15,7 +15,9 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
@@ -44,12 +46,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textLogin = findViewById(R.id.textLogin);
 
+        btnSignup.setOnClickListener(this);
+        textLogin.setOnClickListener(this);
+
+
 
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
 
+        switch (view.getId()){
+
+            case R.id.buttonSignUp:
+                final ParseUser appUser = new ParseUser();
+                appUser.setEmail(edtEmail.getText().toString());
+                appUser.setUsername(edtUsername.getText().toString());
+                appUser.setPassword(edtPassword.getText().toString());
+
+                appUser.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null){
+                            FancyToast.makeText(MainActivity.this, appUser.getUsername() + " is Signed up.", FancyToast.SUCCESS, Toast.LENGTH_SHORT,true).show();
+                        }else{
+                            FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT,true).show();
+
+                        }
+                    }
+                });
+                break;
+
+            case R.id.textLogin:
+                break;
+
+        }
     }
 }
 
