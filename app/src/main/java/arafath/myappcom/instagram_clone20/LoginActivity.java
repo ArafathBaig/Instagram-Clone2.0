@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch(view.getId()){
             case R.id.buttonLogIn:
                 if( edtName.getText().toString().equals("") || edtPass.getText().toString().equals("")){
-                    FancyToast.makeText(LoginActivity.this, "Email, Username, Password required.", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
+                    FancyToast.makeText(LoginActivity.this, "Username, Password required.", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
 
                 }else {
                     ParseUser.logInInBackground(edtName.getText().toString(), edtPass.getText().toString(), new LogInCallback() {
