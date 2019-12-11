@@ -2,8 +2,10 @@ package arafath.myappcom.instagram_clone20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +44,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edtUsername = findViewById(R.id.edtTextSignUpUsername);
         edtPassword = findViewById(R.id.edtTextSignUpPassword);
 
+        edtPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+               if(keyCode == KeyEvent.KEYCODE_ENTER &&
+                       event.getAction() == KeyEvent.ACTION_DOWN){
+
+                   onClick(btnSignup);
+                                  }
+                return false;
+            }
+        });
+
         btnSignup = findViewById(R.id.buttonSignUp);
 
         textLogin = findViewById(R.id.textLogin);
@@ -63,22 +77,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
 
             case R.id.buttonSignUp:
-                final ParseUser appUser = new ParseUser();
-                appUser.setEmail(edtEmail.getText().toString());
-                appUser.setUsername(edtUsername.getText().toString());
-                appUser.setPassword(edtPassword.getText().toString());
 
-                appUser.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e==null){
-                            FancyToast.makeText(MainActivity.this, appUser.getUsername() + " is Signed up.", FancyToast.SUCCESS, Toast.LENGTH_SHORT,true).show();
-                        }else{
-                            FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT,true).show();
+                if(edtEmail.getText().toString().equals("") || edtUsername.getText().toString().equals("") || edtPassword.getText().toString().equals("")){
+                    FancyToast.makeText(MainActivity.this, "Fill the mandontary fields", FancyToast.INFO, Toast.LENGTH_SHORT, true).show();
 
+                }else {
+                    final ParseUser appUser = new ParseUser();
+                    appUser.setEmail(edtEmail.getText().toString());
+                    appUser.setUsername(edtUsername.getText().toString());
+                    appUser.setPassword(edtPassword.getText().toString());
+
+                    final ProgressDialog dialog = new ProgressDialog(this);
+                    dialog.setMessage("Signing up " + edtUsername.getText().toString());
+                    dialog.show();
+
+                    appUser.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                FancyToast.makeText(MainActivity.this, appUser.getUsername() + " is Signed up.", FancyToast.SUCCESS, Toast.LENGTH_SHORT, true).show();
+                            } else {
+                                FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT, true).show();
+
+                            }
+                            dialog.dismiss();
                         }
-                    }
-                });
+                    });
+                }
                 break;
 
             case R.id.textLogin:
