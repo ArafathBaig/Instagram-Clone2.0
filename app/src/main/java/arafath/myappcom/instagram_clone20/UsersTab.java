@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class UsersTab extends Fragment {
-
+    private ListView listView;
 
     public UsersTab() {
         // Required empty public constructor

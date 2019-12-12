@@ -1,6 +1,7 @@
 package arafath.myappcom.instagram_clone20;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -46,18 +47,63 @@ public class ProfileTab extends Fragment {
 
         btnupdate = view.findViewById(R.id.buttonSave);
 
+
         final ParseUser user = ParseUser.getCurrentUser();
 
+        if(user.get("profileName") == null){
+            editName.setText("");
+        }else{
+            editName.setText(user.get("profileName").toString());
+        }
+
+        if(user.get("profileBio") == null){
+            editBio.setText("");
+        }else{
+            editBio.setText(user.get("profileBio").toString());
+        }
+
+
+        if(user.get("profileProfession") == null){
+            editPro.setText("");
+        }else{
+            editPro.setText(user.get("profileProfession").toString());
+
+        }
+
+
+        if(user.get("profileHobbies") == null){
+            editHob.setText("");
+        }else{
+            editHob.setText(user.get("profileHobbies").toString());
+        }
+
+
+        if(user.get("profileSports") == null){
+            editSpo.setText("");
+        }else{
+            editSpo.setText(user.get("profileSports").toString());
+        }
+
+
+
+//        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setMessage("Updating Info");
+//        progressDialog.show();
+
         btnupdate.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                user.put("profileName",editName.getText().toString());
-                user.put("profileBio",editBio.getText().toString());
-                user.put("profileProfession",editPro.getText().toString());
-                user.put("profileHobbies",editHob.getText().toString());
-                user.put("profileSports",editSpo.getText().toString());
+                user.put("profileName",editName.getText()+"");
+                user.put("profileBio",editBio.getText()+"");
+                user.put("profileProfession",editPro.getText()+"");
+                user.put("profileHobbies",editHob.getText()+"");
+                user.put("profileSports",editSpo.getText()+"");
 
                 user.saveInBackground(new SaveCallback() {
+
+
                     @Override
                     public void done(ParseException e) {
                         if(e==null){
@@ -67,8 +113,9 @@ public class ProfileTab extends Fragment {
                             FancyToast.makeText(getContext(),e.getMessage(),FancyToast.ERROR, Toast.LENGTH_SHORT,true).show();
                         }
                     }
-                });
 
+                });
+//                progressDialog.dismiss();
 
             }
         });
