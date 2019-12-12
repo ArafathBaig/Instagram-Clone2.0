@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textLogin.setOnClickListener(this);
 
         if(ParseUser.getCurrentUser() != null) {
-            ParseUser.getCurrentUser().logOut();
+            transitionToMediaActivity();
         }
 
 
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void done(ParseException e) {
                             if (e == null) {
                                 FancyToast.makeText(MainActivity.this, appUser.getUsername() + " is Signed up.", FancyToast.SUCCESS, Toast.LENGTH_SHORT, true).show();
+                                transitionToMediaActivity();
                             } else {
                                 FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.ERROR, Toast.LENGTH_SHORT, true).show();
 
@@ -121,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void transitionToMediaActivity(){
+        Intent intent = new Intent(MainActivity.this,SocialMediaActivity.class);
+        startActivity(intent);
     }
 }
 
