@@ -96,7 +96,7 @@ public class SharePicTab extends Fragment implements View.OnClickListener {
                         ParseFile parseFile = new ParseFile("img.png",bytes);
                         ParseObject object = new ParseObject("Photo");
                         object.put("picture",parseFile);
-                        object.put("image_dex",editDesc.getText().toString());
+                        object.put("image_des",editDesc.getText().toString());
                         object.put("username", ParseUser.getCurrentUser().getUsername());
                         final ProgressDialog progressDialog = new ProgressDialog(getContext());
                         progressDialog.setMessage("Loading");
