@@ -77,6 +77,9 @@ public class SocialMediaActivity extends AppCompatActivity {
             } else {
                 captureImage();
             }
+        } else if(item.getItemId() == R.id.logOutUser){
+            ParseUser.getCurrentUser().logOut();
+            finish();
         }
             return super.onOptionsItemSelected(item);
         }
