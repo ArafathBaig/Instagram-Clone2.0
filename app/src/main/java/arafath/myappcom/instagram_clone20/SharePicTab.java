@@ -3,6 +3,7 @@ package arafath.myappcom.instagram_clone20;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -25,7 +26,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -35,6 +44,7 @@ public class SharePicTab extends Fragment implements View.OnClickListener {
         private ImageView imageView;
         private EditText editDesc;
         private Button btnshare;
+        private Bitmap recievedImagebitmap;
 
     public SharePicTab() {
         // Required empty public constructor
@@ -73,6 +83,41 @@ public class SharePicTab extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.buttonSend:
+                if(recievedImagebitmap !=null) {
+
+                    if (editDesc.getText().toString().equals("")) {
+                        FancyToast.makeText(getContext(), "ERROR: Enter a description", FancyToast.ERROR, Toast.LENGTH_SHORT, true).show();
+
+                    } else {
+
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        recievedImagebitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                        byte[] bytes = byteArrayOutputStream.toByteArray();
+                        ParseFile parseFile = new ParseFile("img.png",bytes);
+                        ParseObject object = new ParseObject("Photo");
+                        object.put("picture",parseFile);
+                        object.put("image_dex",editDesc.getText().toString());
+                        object.put("username", ParseUser.getCurrentUser().getUsername());
+                        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading");
+                        progressDialog.show();
+
+                        object.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e ==null){
+                                    FancyToast.makeText(getContext(), "Done!",FancyToast.SUCCESS,Toast.LENGTH_SHORT,true).show();
+                                }else{
+                                    FancyToast.makeText(getContext(), "Unknown Error "+e.getMessage(),FancyToast.ERROR,Toast.LENGTH_SHORT,true).show();
+                                }
+                                progressDialog.dismiss();
+                            }
+                        });
+
+                    }
+                }else{
+                    FancyToast.makeText(getContext(),"ERROR: Enter an image",FancyToast.ERROR,Toast.LENGTH_SHORT,true).show();
+                }
                 break;
         }
     }
@@ -116,7 +161,7 @@ public class SharePicTab extends Fragment implements View.OnClickListener {
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    Bitmap recievedImagebitmap = BitmapFactory.decodeFile(picturePath);
+                    recievedImagebitmap = BitmapFactory.decodeFile(picturePath);
                     imageView.setImageBitmap(recievedImagebitmap);
                 }catch(Exception e){
                         e.printStackTrace();
