@@ -1,13 +1,35 @@
 package arafath.myappcom.instagram_clone20;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.shashank.sony.fancytoastlib.FancyToast;
+
+import java.io.ByteArrayOutputStream;
 
 
 public class SocialMediaActivity extends AppCompatActivity {
@@ -16,7 +38,6 @@ public class SocialMediaActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabAdapter tabAdapter;
     private TabLayout tabLayout;
-
 
 
     @Override
@@ -34,6 +55,84 @@ public class SocialMediaActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager,false);
+        tabLayout.setupWithViewPager(viewPager, false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.postImageItem) {
+            if (android.os.Build.VERSION.SDK_INT >= 23 &&
+                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3000);
+            } else {
+                captureImage();
+            }
+        }
+            return super.onOptionsItemSelected(item);
+        }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 3000){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                captureImage();
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void captureImage () {
+
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent,4000);
+        }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 4000 && resultCode == RESULT_OK && data !=null){
+
+            try{
+                Uri selectedImage = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                byte[] bytes = byteArrayOutputStream.toByteArray();
+
+                ParseFile parseFile = new ParseFile("img.png",bytes);
+                ParseObject object = new ParseObject("Photo");
+                object.put("picture",parseFile);
+                object.put("username", ParseUser.getCurrentUser().getUsername());
+                final ProgressDialog progressDialog = new ProgressDialog(SocialMediaActivity.this);
+                progressDialog.setMessage("Loading");
+                progressDialog.show();
+
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e ==null){
+                            FancyToast.makeText(SocialMediaActivity.this, "Done!",FancyToast.SUCCESS, Toast.LENGTH_SHORT,true).show();
+                        }else{
+                            FancyToast.makeText(SocialMediaActivity.this, "Unknown Error "+e.getMessage(),FancyToast.ERROR,Toast.LENGTH_SHORT,true).show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }
